@@ -1,0 +1,9 @@
+CREATE TABLE employees (
+    id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    job_title VARCHAR(150) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    salary NUMERIC(12,2) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
