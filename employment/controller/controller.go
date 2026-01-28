@@ -5,6 +5,7 @@ import (
 	"strings"
 	"sukvij/employment/model"
 	"sukvij/employment/service"
+	"sukvij/galenfers/middleware"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -17,6 +18,7 @@ type Controller struct {
 func EmployeeController(app *gin.Engine, db *gorm.DB) {
 	controller := &Controller{Db: db}
 	router := app.Group("/v1/employees")
+	router.Use(middleware.JWTAuthMiddleware())
 	router.GET("", controller.getEmployees)
 	router.POST("", controller.createEmployee)
 	router.GET("/:id", controller.getEmployeeById)

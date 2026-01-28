@@ -5,6 +5,7 @@ import (
 	empController "sukvij/employment/controller"
 	"sukvij/galenfers/configs"
 	"sukvij/galenfers/database"
+	"sukvij/galenfers/middleware"
 	"sukvij/salary-calculation/controller"
 	salmetricsController "sukvij/salary-metrics/controller"
 
@@ -20,5 +21,6 @@ func main() {
 	empController.EmployeeController(app, conn)
 	controller.SalaryCalculationController(app, conn)
 	salmetricsController.SalaryMetricsController(app, conn)
+	middleware.AuthController(app, conn)
 	app.Run(":8080")
 }
