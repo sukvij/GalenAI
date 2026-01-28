@@ -22,7 +22,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-var jwtSecret = []byte("super-secret-key") // use env in prod
+var jwtSecret = []byte("super-secret-key")
 
 func GenerateToken(userName string, role string) (string, error) {
 	claims := Claims{
@@ -74,14 +74,14 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 
 		if authHeader == "" {
 			// ctx.AbortWithStatusJSON(401, gin.H{"error": "authorization header missing"})
-			response.AbortWithStatus(ctx, nil, errors.New("authorization header missing"), 401)
+			response.AbortWithStatus(ctx, gin.H{"error": "authorization header missing"}, 401)
 			return
 		}
 
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
 			// ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid authorization format"})
-			response.AbortWithStatus(ctx, nil, errors.New("invalid authorization format"), 401)
+			response.AbortWithStatus(ctx, gin.H{"error": "invalid authorization format"}, 401)
 			return
 		}
 
@@ -96,14 +96,14 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 
 		if err != nil || !token.Valid {
 			// ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid or expired token"})
-			response.AbortWithStatus(ctx, nil, errors.New("invalid or expired token"), 401)
+			response.AbortWithStatus(ctx, gin.H{"error": "invalid or expired token"}, 401)
 			return
 		}
 
 		claims, ok := token.Claims.(*Claims)
 		if !ok {
 			// ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid token claims"})
-			response.AbortWithStatus(ctx, nil, errors.New("invalid token claims"), 401)
+			response.AbortWithStatus(ctx, gin.H{"error": "invalid token claims"}, 401)
 			return
 		}
 

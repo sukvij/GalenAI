@@ -87,6 +87,6 @@ func SendResponse(ctx *gin.Context, result interface{}, err error) {
 	ctx.JSON(status, resp)
 }
 
-func AbortWithStatus(ctx *gin.Context, result interface{}, err error, status int) {
-	ctx.AbortWithStatusJSON(status, err)
+func AbortWithStatus(ctx *gin.Context, result interface{}, status int) {
+	ctx.AbortWithStatusJSON(status, result)
 }
