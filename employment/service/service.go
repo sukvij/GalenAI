@@ -22,13 +22,15 @@ func (service *Service) GetEmployee() (*[]model.Employee, error) {
 	return repo.GetEmployee()
 }
 
-func (service *Service) GetEmployeeById() {
-
+func (service *Service) GetEmployeeById(id uint) (*model.Employee, error) {
+	repo := &repository.Repository{Db: service.Db, Employee: service.Employee}
+	return repo.GetEmployeeById(id)
 }
 func (service *Service) UpdateEmployee() {
 
 }
 
-func (service *Service) DeleteEmployee() {
-
+func (service *Service) DeleteEmployee(id uint) error {
+	repo := &repository.Repository{Db: service.Db, Employee: service.Employee}
+	return repo.DeleteEmployee(id)
 }

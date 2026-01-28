@@ -23,3 +23,61 @@
      up     --- locally migrate
     
     
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "full_name": "Vijendra Sukariya",
+  "job_title": "Senior Software Engineer",
+  "country": "India",
+  "salary": 250000.00
+}
+
+{
+  "full_name": "Aarav Sharma",
+  "job_title": "Software Engineer",
+  "country": "India",
+  "salary": 120000.00
+}
+
+{
+  "full_name": "Emily Johnson",
+  "job_title": "Product Manager",
+  "country": "USA",
+  "salary": 135000.00
+}
+
+
+{
+  "full_name": "Liam Brown",
+  "job_title": "Data Analyst",
+  "country": "UK",
+  "salary": 90000.00
+}
+
+
+{
+  "full_name": "Sophia Müller",
+  "job_title": "UX Designer",
+  "country": "Germany",
+  "salary": 85000.00
+}
+
+
+{
+  "full_name": "Noah Williams",
+  "job_title": "DevOps Engineer",
+  "country": "Canada",
+  "salary": 110000.00
+}
+
+

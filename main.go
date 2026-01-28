@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"sukvij/employment/controller"
+	empController "sukvij/employment/controller"
 	"sukvij/galenfers/configs"
 	"sukvij/galenfers/database"
+	"sukvij/salary-calculation/controller"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,7 @@ func main() {
 	fmt.Println(conn, err)
 
 	app := gin.Default()
-	controller.EmployeeController(app, conn)
+	empController.EmployeeController(app, conn)
+	controller.SalaryCalculationController(app, conn)
 	app.Run(":8080")
 }

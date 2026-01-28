@@ -7,7 +7,7 @@ type Employee struct {
 	FullName  string  `gorm:"column:full_name;type:varchar(255);not null"`
 	JobTitle  string  `gorm:"column:job_title;type:varchar(150);not null"`
 	Country   string  `gorm:"type:varchar(100);not null"`
-	Salary    float64 `gorm:"type:numeric(12,2);not null"` // gross salary
+	Salary    float64 `gorm:"type:numeric(12,2);not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
