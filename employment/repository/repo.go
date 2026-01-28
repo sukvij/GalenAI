@@ -30,13 +30,17 @@ func (repo *Repository) GetEmployee() (*[]model.Employee, error) {
 }
 
 func (repo *Repository) GetEmployeeById(id uint) (*model.Employee, error) {
-	employee := model.Employee{ID: id}
-	err := repo.Db.Find(&employee).Where("id = ?", id).Error
+	var employee model.Employee
+
+	err := repo.Db.Where("id = ?", id).First(&employee).Error
+
 	if err != nil {
 		return nil, err
 	}
+
 	return &employee, nil
 }
+
 func (repo *Repository) UpdateEmployee() {
 
 }

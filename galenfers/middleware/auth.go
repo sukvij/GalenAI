@@ -1,8 +1,10 @@
 package middleware
 
 import (
+	"errors"
 	"fmt"
 	"strings"
+	response "sukvij/galenfers/Response"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -41,27 +43,29 @@ func Login(ctx *gin.Context) {
 	var credentials Credentials
 
 	if err := ctx.ShouldBindJSON(&credentials); err != nil {
-		ctx.JSON(400, gin.H{"error": "invalid request body"})
+		// ctx.JSON(400, gin.H{"error": "invalid request body"})
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 
 	// dummy auth
 	if credentials.UserName != "sukvij" || credentials.Password != "12345" {
-		ctx.JSON(401, gin.H{"error": "invalid username or password"})
+		// ctx.JSON(401, gin.H{"error": "invalid username or password"})
+		response.SendResponse(ctx, nil, errors.New("invalid username or password"))
 		return
 	}
 
 	token, err := GenerateToken(credentials.UserName, "admin")
 	if err != nil {
-		ctx.JSON(500, gin.H{"error": "failed to generate token"})
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 
-	ctx.JSON(200, gin.H{
+	response.SendResponse(ctx, gin.H{
 		"access_token": token,
 		"token_type":   "Bearer",
 		"expires_in":   86400,
-	})
+	}, err)
 }
 
 func JWTAuthMiddleware() gin.HandlerFunc {
@@ -69,13 +73,15 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		authHeader := ctx.GetHeader("Authorization")
 
 		if authHeader == "" {
-			ctx.AbortWithStatusJSON(401, gin.H{"error": "authorization header missing"})
+			// ctx.AbortWithStatusJSON(401, gin.H{"error": "authorization header missing"})
+			response.AbortWithStatus(ctx, nil, errors.New("authorization header missing"), 401)
 			return
 		}
 
 		parts := strings.Split(authHeader, " ")
 		if len(parts) != 2 || parts[0] != "Bearer" {
-			ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid authorization format"})
+			// ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid authorization format"})
+			response.AbortWithStatus(ctx, nil, errors.New("invalid authorization format"), 401)
 			return
 		}
 
@@ -89,13 +95,15 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid or expired token"})
+			// ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid or expired token"})
+			response.AbortWithStatus(ctx, nil, errors.New("invalid or expired token"), 401)
 			return
 		}
 
 		claims, ok := token.Claims.(*Claims)
 		if !ok {
-			ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid token claims"})
+			// ctx.AbortWithStatusJSON(401, gin.H{"error": "invalid token claims"})
+			response.AbortWithStatus(ctx, nil, errors.New("invalid token claims"), 401)
 			return
 		}
 

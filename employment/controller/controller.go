@@ -5,6 +5,7 @@ import (
 	"strings"
 	"sukvij/employment/model"
 	"sukvij/employment/service"
+	response "sukvij/galenfers/Response"
 	"sukvij/galenfers/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -29,28 +30,28 @@ func (controller *Controller) getEmployees(ctx *gin.Context) {
 	service := &service.Service{Db: controller.Db, Employee: nil}
 	res, err := service.GetEmployee()
 	if err != nil {
-		ctx.JSON(400, err)
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 
-	ctx.JSON(200, res)
+	response.SendResponse(ctx, res, err)
 }
 
 func (controller *Controller) deleteEmployee(ctx *gin.Context) {
 	strId := ctx.Param("id")
 	id, err := strconv.Atoi(strId)
 	if err != nil {
-		ctx.JSON(400, err)
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 	service := &service.Service{Db: controller.Db, Employee: nil}
 	err = service.DeleteEmployee(uint(id))
 	if err != nil {
-		ctx.JSON(400, err)
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 
-	ctx.JSON(200, err)
+	response.SendResponse(ctx, map[string]string{"result": "successfully deleted"}, nil)
 }
 
 func (controller *Controller) createEmployee(ctx *gin.Context) {
@@ -58,18 +59,17 @@ func (controller *Controller) createEmployee(ctx *gin.Context) {
 
 	err1 := ctx.ShouldBindJSON(&employee)
 	if err1 != nil {
-		ctx.JSON(400, err1)
+		response.SendResponse(ctx, nil, err1)
 		return
 	}
 	employee.Country = strings.ToLower(strings.TrimSpace(employee.Country))
 	service := &service.Service{Db: controller.Db, Employee: &employee}
 	res, err := service.CreateEmployee()
 	if err != nil {
-		ctx.JSON(400, err)
+		response.SendResponse(ctx, nil, err)
 		return
 	}
-
-	ctx.JSON(200, res)
+	response.SendResponse(ctx, res, nil)
 }
 
 func (controller *Controller) getEmployeeById(ctx *gin.Context) {
@@ -77,15 +77,15 @@ func (controller *Controller) getEmployeeById(ctx *gin.Context) {
 	strId := ctx.Param("id")
 	id, err := strconv.Atoi(strId)
 	if err != nil {
-		ctx.JSON(400, err)
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 	service := &service.Service{Db: controller.Db, Employee: nil}
 	res, err := service.GetEmployeeById(uint(id))
 	if err != nil {
-		ctx.JSON(400, err)
+		response.SendResponse(ctx, nil, err)
 		return
 	}
 
-	ctx.JSON(200, res)
+	response.SendResponse(ctx, res, nil)
 }
