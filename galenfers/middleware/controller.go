@@ -6,6 +6,6 @@ import (
 )
 
 func AuthController(app *gin.Engine, Db *gorm.DB) {
-	router := app.Group("/auth")
-	router.POST("/login", Login)
+	// router := app.Group("/auth")
+	// router.POST("/login", Login)
 }

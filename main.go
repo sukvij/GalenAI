@@ -8,6 +8,7 @@ import (
 	"sukvij/galenfers/middleware"
 	"sukvij/salary-calculation/controller"
 	salmetricsController "sukvij/salary-metrics/controller"
+	"sukvij/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,5 +23,6 @@ func main() {
 	controller.SalaryCalculationController(app, conn)
 	salmetricsController.SalaryMetricsController(app, conn)
 	middleware.AuthController(app, conn)
+	user.UserController(app, conn)
 	app.Run(":8080")
 }

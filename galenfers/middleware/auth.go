@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 	response "sukvij/galenfers/Response"
@@ -39,23 +38,18 @@ func GenerateToken(userName string, role string) (string, error) {
 	return token.SignedString(jwtSecret)
 }
 
-func Login(ctx *gin.Context) {
-	var credentials Credentials
+func Login(ctx *gin.Context, username string, role string) {
+	// var credentials Credentials
 
-	if err := ctx.ShouldBindJSON(&credentials); err != nil {
-		// ctx.JSON(400, gin.H{"error": "invalid request body"})
-		response.SendResponse(ctx, nil, err)
-		return
-	}
-
+	// credentials.UserName = username
 	// dummy auth
-	if credentials.UserName != "sukvij" || credentials.Password != "12345" {
-		// ctx.JSON(401, gin.H{"error": "invalid username or password"})
-		response.SendResponse(ctx, nil, errors.New("invalid username or password"))
-		return
-	}
+	// if credentials.UserName != "sukvij" || credentials.Password != "12345" {
+	// 	// ctx.JSON(401, gin.H{"error": "invalid username or password"})
+	// 	response.SendResponse(ctx, nil, errors.New("invalid username or password"))
+	// 	return
+	// }
 
-	token, err := GenerateToken(credentials.UserName, "admin")
+	token, err := GenerateToken(username, role)
 	if err != nil {
 		response.SendResponse(ctx, nil, err)
 		return
