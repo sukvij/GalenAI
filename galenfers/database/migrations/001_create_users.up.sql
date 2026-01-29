@@ -8,6 +8,9 @@ CREATE TABLE employees (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE INDEX idx_employees_country ON employees(country);
+CREATE INDEX idx_employees_job_title ON employees(job_title);
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     user_name VARCHAR(50) UNIQUE NOT NULL,
